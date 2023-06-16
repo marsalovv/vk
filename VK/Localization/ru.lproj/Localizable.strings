@@ -1,0 +1,10 @@
+/* CreatingPostViewController*/
+"create post" = "Создание поста";
+
+/* LoginViewController */
+"login label" = "Лучший клиент для VK";
+"login button" = "Войти";
+
+
+/* FeedTableViewController */
+"feedTableViewController title" = "Лента новостей";

@@ -1,0 +1,12 @@
+/* CreatingPostViewController*/
+
+"create post" = "Create post";
+
+
+/* LoginViewController */
+"login label" = "To continue, you need to log in to VK";
+"login button" = "Log In";
+
+
+/* FeedTableViewController */
+"feedTableViewController title" = "Feed news";
