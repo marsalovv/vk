@@ -1,0 +1,22 @@
+PODS:
+  - SDWebImage (5.16.0):
+    - SDWebImage/Core (= 5.16.0)
+  - SDWebImage/Core (5.16.0)
+  - SwiftyVK (3.4.2)
+
+DEPENDENCIES:
+  - SDWebImage (~> 5.0)
+  - SwiftyVK
+
+SPEC REPOS:
+  trunk:
+    - SDWebImage
+    - SwiftyVK
+
+SPEC CHECKSUMS:
+  SDWebImage: 2aea163b50bfcb569a2726b6a754c54a4506fcf6
+  SwiftyVK: 5005dac6e85f7b0fd44e21ed2f021a397dff4cab
+
+PODFILE CHECKSUM: bab5c5c0866204e9a040fc9ee830183d30329fb6
+
+COCOAPODS: 1.11.3
