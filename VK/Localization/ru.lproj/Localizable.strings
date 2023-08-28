@@ -1,5 +1,7 @@
 /* CreatingPostViewController*/
-"create post" = "Создание поста";
+"create post" = "Создание записи";
+"add image" = "Выбрать изображение";
+"send post" = "Опубликовать";
 
 /* LoginViewController */
 "login label" = "Лучший клиент для VK";
@@ -7,4 +9,14 @@
 
 
 /* FeedTableViewController */
-"feedTableViewController title" = "Лента новостей";
+"feedTableViewController" = "Лента новостей";
+
+/*ProfileTableViewController*/
+"profile" = "Профиль";
+
+/*PhotoCollectionViewController*/
+"photo" = "Фотографии";
+
+/*PostViewController*/
+"post" = "Запись";
+"send" = "Отправить";

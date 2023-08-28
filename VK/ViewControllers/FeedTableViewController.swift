@@ -4,30 +4,41 @@ import SwiftyVK
 
 class FeedTableViewController: UITableViewController {
     
-    private  var posts: [PostModel] = []
-    
+    private  var posts: [NewsModel] = []
+    private var nextFrom: String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .Pallete.white
-        title = ~"feedTableViewController title"
+        title = ~"feedTableViewController"
         
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "postTableViewCell")
+        tableView.rowHeight = UITableView.automaticDimension;
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .refresh, target: self, action: #selector(getNews))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(pushCVC))
+        navigationItem.rightBarButtonItem?.accessibilityLabel = ~"create post"
+        
         getNews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    @objc private func pushCVC() {
+        let CPVC = UINavigationController(rootViewController: CreatingPostViewController())
+        self.present(CPVC, animated: true)
+    }
+    
     @objc private func getNews() {
-        print("getNews")
-        VK.API.NewsFeed.get([.filters : "post, photo"])
+        VK.API.NewsFeed.get([.filters : "post", .startFrom : nextFrom, .count : "25"])
             .onSuccess() {newsFeedData in
-                guard let newsFeed = try? JSONDecoder().decode(NewsFeedModel.self, from: newsFeedData) else {
-                    print("Ошибка парсинга")
-                    return
-                }
-                self.posts = newsFeed.items
-                print("otdali posty")
+                guard let newsFeed = try? JSONDecoder().decode(NewsFeedModel.self, from: newsFeedData) else {return}
+                self.posts += newsFeed.items
+                self.nextFrom = newsFeed.nextFrom
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -40,23 +51,29 @@ class FeedTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "postTableViewCell", for: indexPath) as! PostTableViewCell
-        cell.setupCell(post: posts[indexPath.row])
         
+        cell.postImageView.image = nil
+        cell.setupCell(post: posts[indexPath.row])
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == posts.count - 3 {
+            getNews()
+        }
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let postVC = PostViewController(post: posts[indexPath.row])
+        navigationController?.pushViewController(postVC, animated: true)
+
         
+    }
+    
 }

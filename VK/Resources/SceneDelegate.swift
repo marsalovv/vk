@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  VK
-//
-//  Created by Sergey Marsalov on 02.05.2023.
-//
-//51674176
 
 import UIKit
 import CoreData

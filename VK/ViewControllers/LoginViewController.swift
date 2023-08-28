@@ -2,8 +2,9 @@
 import UIKit
 import SwiftyVK
 
-class LoginViewController: UIViewController, SwiftyVKDelegate {
+final class LoginViewController: UIViewController, SwiftyVKDelegate {
     
+    private let appId = "51674921"
     private let color = UIColor(patternImage: UIImage(named: "LoginViewControllerBackground")!)
     
     private lazy var image: UIImageView = {
@@ -19,7 +20,6 @@ class LoginViewController: UIViewController, SwiftyVKDelegate {
         label .text = ~"login label"
         label.font = UIFont.systemFont(ofSize: 27, weight: .bold)
         label.textColor = .white
-        
         label.textAlignment = .center
         label.shadowColor = color
         label.shadowOffset = CGSize(width: 1, height: 1)
@@ -56,10 +56,11 @@ class LoginViewController: UIViewController, SwiftyVKDelegate {
     }
     
     @objc private func login() {
-        VK.setUp(appId: "51674921", delegate: self)
+        VK.setUp(appId: appId, delegate: self)
         
-        VK.sessions.default.logIn(onSuccess: { responce in
-            UserDefaults.standard.setValue(responce["access_token"], forKey: "token")
+        VK.sessions.default.logIn(onSuccess: {response in
+            UserDefaults.standard.setValue(response["access_token"], forKey: "token")
+            UserDefaults.standard.setValue(response["user_id"], forKey: "userId")
             
             DispatchQueue.main.async {
                 let mtbc = MainTabBarController()
@@ -74,21 +75,24 @@ class LoginViewController: UIViewController, SwiftyVKDelegate {
     private func setupConstraints() {
         let height = UIScreen.main.bounds.height
         let safeArie = view.safeAreaLayoutGuide
-        image.topAnchor.constraint(equalTo: safeArie.topAnchor).isActive = true
-        image.leadingAnchor.constraint(equalTo: safeArie.leadingAnchor).isActive = true
-        image.trailingAnchor.constraint(equalTo: safeArie.trailingAnchor).isActive = true
-        image.bottomAnchor.constraint(equalTo: safeArie.bottomAnchor).isActive = true
         
-        label.centerXAnchor.constraint(equalTo: image.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: image.centerYAnchor).isActive = true
-        label.leadingAnchor.constraint(equalTo: image.leadingAnchor, constant: 16).isActive = true
-        label.trailingAnchor.constraint(equalTo: image.trailingAnchor, constant: -16).isActive = true
-        label.heightAnchor.constraint(equalToConstant: height / 5).isActive = true
-        
-        loginButton.centerXAnchor.constraint(equalTo: image.centerXAnchor).isActive = true
-        loginButton.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 50).isActive = true
-        loginButton.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: -50).isActive = true
-        loginButton.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -100).isActive = true
+        NSLayoutConstraint.activate([
+            image.topAnchor.constraint(equalTo: safeArie.topAnchor),
+            image.leadingAnchor.constraint(equalTo: safeArie.leadingAnchor),
+            image.trailingAnchor.constraint(equalTo: safeArie.trailingAnchor),
+            image.bottomAnchor.constraint(equalTo: safeArie.bottomAnchor),
+            
+            label.centerXAnchor.constraint(equalTo: image.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: image.centerYAnchor),
+            label.leadingAnchor.constraint(equalTo: image.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: image.trailingAnchor, constant: -16),
+            label.heightAnchor.constraint(equalToConstant: height / 5),
+            
+            loginButton.centerXAnchor.constraint(equalTo: image.centerXAnchor),
+            loginButton.leadingAnchor.constraint(equalTo: label.leadingAnchor, constant: 50),
+            loginButton.trailingAnchor.constraint(equalTo: label.trailingAnchor, constant: -50),
+            loginButton.bottomAnchor.constraint(equalTo: image.bottomAnchor, constant: -100),
+        ])
     }
     
     //MARK: - SwiftyVKDelegate
@@ -100,9 +104,6 @@ class LoginViewController: UIViewController, SwiftyVKDelegate {
     }
     
     func vkNeedToPresent(viewController: VKViewController) {
-        // Called when SwiftyVK wants to present UI (e.g. webView or captcha)
-        // Should display given view controller from current top view controller
-        
         present(viewController, animated: true)
     }
     

@@ -1,12 +1,22 @@
 /* CreatingPostViewController*/
 
 "create post" = "Create post";
-
+"add image" = "Add image";
+"send post" = "Send";
 
 /* LoginViewController */
 "login label" = "To continue, you need to log in to VK";
 "login button" = "Log In";
 
-
 /* FeedTableViewController */
-"feedTableViewController title" = "Feed news";
+"feedTableViewController" = "Feed news";
+
+/*ProfileTableViewController*/
+"profile" = "Profile";
+
+/*PhotoCollectionViewController*/
+"photo" = "Photos";
+
+/*PostViewController*/
+"post" = "Post";
+"send" = "Send";
