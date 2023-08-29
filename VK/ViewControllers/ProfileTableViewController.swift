@@ -15,8 +15,8 @@ class ProfileTableViewController: UITableViewController {
         
         tableView.register(ProfileInfoTableViewCell.self, forCellReuseIdentifier: "profileInfo")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostTableViewCell")
-
-         tableView.rowHeight = UITableView.automaticDimension
+        
+        tableView.rowHeight = UITableView.automaticDimension
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(pushCPVC))
         navigationItem.rightBarButtonItem?.accessibilityLabel = ~"create post"
@@ -28,21 +28,20 @@ class ProfileTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
-        getPosts()
     }
     
     @objc private func pushCPVC() {
-        let cpvc = UINavigationController(rootViewController: CreatingPostViewController())
+        let cp = CreatingPostViewController()
+        cp.action = {self.getPosts()}
+        let cpvc = UINavigationController(rootViewController: cp)
+        
         present(cpvc, animated: true)
     }
     
     private func getProfile() {
         VK.API.Users.get([.fields : "photo_400_orig,status"])
             .onSuccess() {usersData in
-                guard let users = try? JSONDecoder().decode([ProfileModel].self, from: usersData) else {
-                    print("не распарсил профиль")
-                    return
-                }
+                guard let users = try? JSONDecoder().decode([ProfileModel].self, from: usersData) else {return}
                 self.profile = users[0]
                 
                 DispatchQueue.main.async {
@@ -58,9 +57,7 @@ class ProfileTableViewController: UITableViewController {
     private func getPosts() {
         VK.API.Wall.get([.filter : "post"])
             .onSuccess() {postsData in
-                guard let newPosts = try? JSONDecoder().decode(PostsModel.self, from: postsData) else {
-                    print("парсинг постов")
-                    return}
+                guard let newPosts = try? JSONDecoder().decode(PostsModel.self, from: postsData) else {return}
                 
                 self.posts = newPosts.items
                 
@@ -95,11 +92,6 @@ class ProfileTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count + 1
     }
@@ -108,7 +100,6 @@ class ProfileTableViewController: UITableViewController {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileInfo", for: indexPath) as! ProfileInfoTableViewCell
             
-            
             if let myProfile = profile {
                 cell.setupCell(profile: myProfile)
             }
@@ -116,8 +107,9 @@ class ProfileTableViewController: UITableViewController {
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
-            cell.postImageView.image = nil
+            
             cell.setupCell(post: posts[indexPath.row - 1])
+            
             return cell
         }
     }

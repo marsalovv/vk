@@ -2,13 +2,9 @@
 
 
 struct NewsModel: Codable, PostProtocol {
-    
     var id: Int?
-    
     var ownerID: Int?
-    
     var fromID: Int?
-    
     let date: Int
     let sourceID: Int?
     let postID: Int?

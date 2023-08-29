@@ -5,8 +5,8 @@ import PhotosUI
 
 final class CreatingPostViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    private var keyboardHeight : CGFloat = 0
     private let imagePicker = UIImagePickerController()
+    var action: (() -> ()) = {}
     
     private lazy var textView: UITextView = {
         let textView = UITextView()
@@ -86,12 +86,18 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
                         .attachments: "photo\(userId)_\(photoId)"
                     ])
                 }
+                .onSuccess() {_ in
+                    self.action()
+                }
                 .onError() {error in
                     print(error.localizedDescription)
                 }
                 .send()
         }else{
             VK.API.Wall.post([.message: message])
+                .onSuccess() {_ in
+                    self.action()
+                }
                 .onError() {error in
                     print(error.localizedDescription)
                 }

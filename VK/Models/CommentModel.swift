@@ -2,17 +2,16 @@
 import Foundation
 
 struct CommentsModel: Codable {
-    
     let count: Int
-    let items: [CommentModel]
+    var items: [CommentModel]
 }
 
 struct CommentModel: Codable {
-
     let id: Int
     let fromID: Int
     let date: Int
     let text: String
+    var isReply: Bool?
     let thread: CommentsModel?
     
     enum CodingKeys: String, CodingKey {
@@ -20,6 +19,7 @@ struct CommentModel: Codable {
         case fromID = "from_id"
         case date
         case text
+        case isReply
         case thread
     }
 }

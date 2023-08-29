@@ -46,6 +46,7 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
     init(post: PostProtocol) {
         self.post = post
         super.init(nibName: nil, bundle: nil)
+        
         setId()
         getComments()
     }
@@ -110,19 +111,29 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
     
     private func getComments(commentId: String = "") {
         VK.API.Wall.getComments([.ownerId: ownerId, .postId: postId, .count: "100", .commentId: commentId])
-            .onSuccess() {commentsData in
-                guard let newComments = try? JSONDecoder().decode(CommentsModel.self, from: commentsData) else {return}
+            .onSuccess() { [self]commentsData in
+                guard var newComments = try? JSONDecoder().decode(CommentsModel.self, from: commentsData) else {return}
                 
-                for comment in newComments.items {
-                    self.comments.append(comment)
-                    let count = comment.thread?.count ?? 0
+                if commentId.isEmpty != true {
+                    for index in 0..<newComments.items.count {
+                        newComments.items[index].isReply = true
+                    }
+                    let indexThread = comments.firstIndex(where: {String($0.id) == commentId})! + 1
+                    comments.insert(contentsOf: newComments.items, at: indexThread)
+                }
+                
+                for index in 0..<newComments.items.count {
+                    let isReply = newComments.items[index].isReply ?? false
+                    if isReply {
+                        continue
+                    }
                     
+                    self.comments.append(newComments.items[index])
+                    
+                    let count = newComments.items[index].thread?.count ?? 0
                     if count > 0{
-                        let threadId = String(comment.id)
-                        let queue = DispatchQueue(label: "thread")
-                        queue.sync {
-                            self.getComments(commentId: threadId)
-                        }
+                        let threadId = String(self.comments[index].id)
+                        self.getComments(commentId: threadId)
                     }
                 }
                 
@@ -177,8 +188,9 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
             let ownerId = comment.fromID
             let date = comment.date
             let message = comment.text
+            let isReply = comment.isReply ?? false
             
-            cell.setupCell(ownerId: ownerId, date: date, comment: message)
+            cell.setupCell(ownerId: ownerId, date: date, comment: message, isReply: isReply)
             
             return cell
         }

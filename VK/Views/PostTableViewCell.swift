@@ -140,6 +140,10 @@ final class PostTableViewCell: UITableViewCell {
             return
         }
         
+        if attachments.count == 0 {
+            setupConstraints()
+            return
+        }
         for attachment in attachments{
             if attachment.type == "photo" {
                 guard let url = attachment.photo?.sizes.first?.url else {return}
@@ -245,8 +249,8 @@ final class PostTableViewCell: UITableViewCell {
             postLabel.topAnchor.constraint(equalTo: authorView.bottomAnchor, constant: 12),
             postLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             postLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            postLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -8),
             
-            postImageView.topAnchor.constraint(equalTo: postLabel.bottomAnchor, constant: 8),
             postImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             postImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             postImageView.heightAnchor.constraint(equalToConstant: imageHeight),
@@ -257,6 +261,7 @@ final class PostTableViewCell: UITableViewCell {
             
             commentsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             commentsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+
         ])
     }
     

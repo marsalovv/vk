@@ -7,6 +7,7 @@ final class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         let swiftyVKDelegate = LoginViewController()
         VK.setUp(appId: "51674921", delegate: swiftyVKDelegate)
         
@@ -14,6 +15,7 @@ final class MainTabBarController: UITabBarController {
         feedTVC.tabBarItem = UITabBarItem(title: ~"feedTableViewController", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         let profileTVC = UINavigationController(rootViewController: ProfileTableViewController())
         profileTVC.tabBarItem = UITabBarItem(title: ~"profile", image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"))
+
         
         let layout = UICollectionViewFlowLayout()
         let allPhotoCVC = UINavigationController(rootViewController: AllPhotosCollectionViewController(collectionViewLayout: layout))

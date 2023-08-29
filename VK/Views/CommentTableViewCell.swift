@@ -3,7 +3,6 @@ import UIKit
 import SwiftyVK
 
 class CommentTableViewCell: UITableViewCell {
-
     
     private lazy var avatarImageView: UIImageView = {
         let image = UIImageView()
@@ -49,13 +48,17 @@ class CommentTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell(ownerId: Int, date: Int, comment: String) {
+    func setupCell(ownerId: Int, date: Int, comment: String, isReply: Bool) {
+        setNameAndAvatar(id: ownerId)
+        
+        if isReply {
+            commentLabel.text = formatedReply(comment: comment)
+        }else{
+            commentLabel.text = comment
+        }
+        
         let dateFormater = CustomDateFormatter(dt: date)
         dateLabel.text = dateFormater.getDateAndTime()
-        
-        commentLabel.text = comment
-        
-setNameAndAvatar(id: ownerId)
     }
     
     private func setNameAndAvatar(id: Int) {
@@ -95,6 +98,17 @@ setNameAndAvatar(id: ownerId)
                 }
                 .send()
         }
+    }
+    
+    private func formatedReply(comment: String) -> String {
+        let array = comment.components(separatedBy: "]")
+        if array.count == 1 {
+            return array[0]
+        }
+        let reply = comment.components(separatedBy: "]")[1]
+        let name = array[0].components(separatedBy: "|")[1]
+        
+        return name + reply
     }
 
     
