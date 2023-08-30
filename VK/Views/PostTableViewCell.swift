@@ -88,6 +88,7 @@ final class PostTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = ~"not supported"
         label.isHidden = true
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -99,7 +100,7 @@ final class PostTableViewCell: UITableViewCell {
         postImageView.addSubview(notSupportedLabel)
         [authorLabel, avatarImageView, dateLabel].forEach({authorView.addSubview($0)})
         [authorView,postImageView, postLabel, likesButton, commentsButton].forEach {contentView.addSubview($0)}
-        self.accessibilityElements = [notSupportedLabel,authorLabel, postLabel, postImageView,likesButton, commentsButton]
+        self.accessibilityElements = [authorLabel, postLabel, postImageView, notSupportedLabel, likesButton, commentsButton]
     }
     
     required init?(coder: NSCoder) {
@@ -162,6 +163,8 @@ final class PostTableViewCell: UITableViewCell {
                 imageHeight = UIScreen.main.bounds.height / 3
                 postImageView.sd_setImage(with: URL(string: url))
                 postLabel.numberOfLines = 8
+                setupConstraints()
+                return
 
             }else{
                 imageHeight = 30
