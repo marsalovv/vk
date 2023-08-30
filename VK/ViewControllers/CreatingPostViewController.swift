@@ -87,7 +87,9 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
                     ])
                 }
                 .onSuccess() {_ in
-                    self.action()
+                    DispatchQueue.main.async {
+                        self.action()
+                    }
                 }
                 .onError() {error in
                     print(error.localizedDescription)
@@ -96,7 +98,9 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
         }else{
             VK.API.Wall.post([.message: message])
                 .onSuccess() {_ in
-                    self.action()
+                    DispatchQueue.main.async {
+                        self.action()
+                    }
                 }
                 .onError() {error in
                     print(error.localizedDescription)

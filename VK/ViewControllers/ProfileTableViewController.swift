@@ -2,7 +2,7 @@
 import UIKit
 import SwiftyVK
 
-class ProfileTableViewController: UITableViewController {
+final class ProfileTableViewController: UITableViewController {
     
     private var posts: [PostModel] = []
     private var profile: ProfileModel?
@@ -32,7 +32,10 @@ class ProfileTableViewController: UITableViewController {
     
     @objc private func pushCPVC() {
         let cp = CreatingPostViewController()
-        cp.action = {self.getPosts()}
+        cp.action = {
+            self.tableView.scrollToRow(at: IndexPath(item: 1, section: 0), at: .top, animated: true)
+            self.getPosts()
+        }
         let cpvc = UINavigationController(rootViewController: cp)
         
         present(cpvc, animated: true)
@@ -81,7 +84,7 @@ class ProfileTableViewController: UITableViewController {
                     let myIndexPath = IndexPath(row: index + 1, section: 0)
                     self.posts.remove(at: index)
                     self.tableView.deleteRows(at: [myIndexPath], with: .top)
-                    self.tableView.reloadData()
+                    self.getPosts()
                 }
             }
             .onError() {error in
@@ -107,7 +110,7 @@ class ProfileTableViewController: UITableViewController {
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
-            
+            //cell.postImageView.image = nil
             cell.setupCell(post: posts[indexPath.row - 1])
             
             return cell

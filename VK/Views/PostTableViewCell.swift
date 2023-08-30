@@ -84,12 +84,22 @@ final class PostTableViewCell: UITableViewCell {
         return button
     }()
     
+    private lazy var notSupportedLabel: UILabel = {
+        let label = UILabel()
+        label.text = ~"not supported"
+        label.isHidden = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        postImageView.addSubview(notSupportedLabel)
         [authorLabel, avatarImageView, dateLabel].forEach({authorView.addSubview($0)})
         [authorView,postImageView, postLabel, likesButton, commentsButton].forEach {contentView.addSubview($0)}
-        self.accessibilityElements = [authorLabel, postLabel, postImageView,likesButton, commentsButton]
+        self.accessibilityElements = [notSupportedLabel,authorLabel, postLabel, postImageView,likesButton, commentsButton]
     }
     
     required init?(coder: NSCoder) {
@@ -110,7 +120,7 @@ final class PostTableViewCell: UITableViewCell {
         if let id = post.sourceID{
             ownerId = String(id)
         }
-        if let id = post.ownerID {
+        if let id = post.fromID {
             ownerId = String(id)
         }
         if let id = post.postID {
@@ -144,6 +154,7 @@ final class PostTableViewCell: UITableViewCell {
             setupConstraints()
             return
         }
+        
         for attachment in attachments{
             if attachment.type == "photo" {
                 guard let url = attachment.photo?.sizes.first?.url else {return}
@@ -151,9 +162,13 @@ final class PostTableViewCell: UITableViewCell {
                 imageHeight = UIScreen.main.bounds.height / 3
                 postImageView.sd_setImage(with: URL(string: url))
                 postLabel.numberOfLines = 8
-                setupConstraints()
+
+            }else{
+                imageHeight = 30
+                notSupportedLabel.isHidden = false
             }
         }
+        setupConstraints()
     }
     
     private func setNameAndAvatar(id: Int) {
@@ -184,6 +199,7 @@ final class PostTableViewCell: UITableViewCell {
                     guard let users = try? JSONDecoder().decode([ProfileModel].self, from: usersData) else {return}
                     
                     let name = "\(users[0].firstName) \(users[0].lastName)"
+
                     let imageUrl = users[0].photo50 ?? ""
                     
                     DispatchQueue.main.async {
@@ -261,6 +277,11 @@ final class PostTableViewCell: UITableViewCell {
             
             commentsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             commentsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            
+            notSupportedLabel.centerYAnchor.constraint(equalTo: postImageView.centerYAnchor),
+            notSupportedLabel.centerXAnchor.constraint(equalTo: postImageView.centerXAnchor),
+            notSupportedLabel.heightAnchor.constraint(equalToConstant: 30),
+
 
         ])
     }

@@ -14,9 +14,16 @@
 /*ProfileTableViewController*/
 "profile" = "Профиль";
 
-/*PhotoCollectionViewController*/
+/*allPhotoCollectionViewController*/
 "photo" = "Фотографии";
+
+/*PhotoViewController*/
+"close" = "Закрыть";
 
 /*PostViewController*/
 "post" = "Запись";
 "send" = "Отправить";
+
+
+/*PostTableViewCell*/
+"not supported" = "Данный тип пока не поддерживается...";
