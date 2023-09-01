@@ -22,6 +22,7 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
         button.addTarget(self, action: #selector(selectImage), for: .touchUpInside)
         button.setImage(UIImage(systemName: "paperclip"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.titleLabel?.textColor = .Pallete.black
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -30,6 +31,7 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
     private lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle(~"send post", for: .normal)
+        button.titleLabel?.textColor = .Pallete.black
         button.addTarget(self, action: #selector(sendPost), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         
@@ -58,7 +60,6 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
         imagePicker.delegate = self
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
-        //navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(sendPost))
         
         setupConstraints()
     }

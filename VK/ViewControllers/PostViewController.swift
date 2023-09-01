@@ -24,6 +24,7 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
         textView.layer.cornerRadius = 16
         textView.layer.borderColor = UIColor.lightGray.cgColor
         textView.layer.borderWidth = 1
+        textView.textColor = .Pallete.black
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         return textView

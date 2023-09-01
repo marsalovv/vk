@@ -6,6 +6,7 @@ final class ProfileInfoTableViewCell: UITableViewCell {
     
     private lazy var NameLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .Pallete.black
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -14,6 +15,7 @@ final class ProfileInfoTableViewCell: UITableViewCell {
     
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .Pallete.black
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -37,6 +39,7 @@ final class ProfileInfoTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        contentView.backgroundColor = .Pallete.white
         [avatarImageView, NameLabel, statusLabel].forEach() {contentView.addSubview($0)}
         setupConstraints()
         self.accessibilityElements = [avatarImageView, NameLabel, statusLabel]

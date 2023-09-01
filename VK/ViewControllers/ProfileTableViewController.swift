@@ -32,8 +32,8 @@ final class ProfileTableViewController: UITableViewController {
     @objc private func pushCPVC() {
         let cpvc = CreatingPostViewController()
         cpvc.action = {
-            self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
-            self.getPosts()
+                        self.getPosts()
+            self.tableView.scrollToRow(at: IndexPath(item: 1, section: 0), at: .top, animated: true)
         }
         
         let createPostVC = UINavigationController(rootViewController: cpvc)
@@ -116,6 +116,7 @@ final class ProfileTableViewController: UITableViewController {
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
             cell.postImageView.image = nil
+            
             cell.setupCell(post: posts[indexPath.row - 1])
             
             return cell

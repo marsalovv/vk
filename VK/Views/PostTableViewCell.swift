@@ -5,7 +5,7 @@ import SDWebImage
 
 final class PostTableViewCell: UITableViewCell {
     
-    var imageHeight: CGFloat = 0
+    var imageHeightConstraint = NSLayoutConstraint()
     private var isUserLike: Bool = false
     private var likesCount: Int = 0
     private var ownerId: String = ""
@@ -21,6 +21,7 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var authorLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .Pallete.black
         label.accessibilityTraits = .header
         label.isAccessibilityElement = true
         label.textAlignment = .center
@@ -42,6 +43,7 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .Pallete.black
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -50,6 +52,7 @@ final class PostTableViewCell: UITableViewCell {
     
     let postLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .Pallete.black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +63,8 @@ final class PostTableViewCell: UITableViewCell {
     let postImageView: UIImageView = {
         let image = UIImageView()
         image.isAccessibilityElement = true
+        image.contentMode = .scaleAspectFit
+        image.clipsToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         
         return image
@@ -67,6 +72,7 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var likesButton: UIButton = {
         let button = UIButton()
+        button.titleLabel?.textColor = .Pallete.black
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         button.addTarget(self, action: #selector(addOrRemoveLike), for: .touchUpInside)
@@ -77,6 +83,7 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var commentsButton: UIButton = {
         let button = UIButton()
+        button.titleLabel?.textColor = .Pallete.black
         button.isUserInteractionEnabled = false
         button.setImage(UIImage(systemName: "bubl.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -87,21 +94,26 @@ final class PostTableViewCell: UITableViewCell {
     private lazy var notSupportedLabel: UILabel = {
         let label = UILabel()
         label.text = ~"not supported"
+        label.textColor = .Pallete.black
         label.isHidden = true
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
-
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        contentView.backgroundColor = .Pallete.white
         [authorLabel, avatarImageView, dateLabel].forEach({authorView.addSubview($0)})
         postImageView.addSubview(notSupportedLabel)
         [authorView,postImageView, postLabel, likesButton, commentsButton].forEach {contentView.addSubview($0)}
         self.accessibilityElements = [authorLabel, postLabel, notSupportedLabel, postImageView,likesButton, commentsButton]
+        setupConstraints()
+        self.imageHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 0)
+        imageHeightConstraint.priority = .defaultLow
+        imageHeightConstraint.isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -109,9 +121,14 @@ final class PostTableViewCell: UITableViewCell {
     }
     
     func setupCell(post: PostProtocol) {
-        
-        imageHeight = 0
-        
+        imageHeightConstraint.constant = 0
+        imageHeightConstraint.priority = .defaultHigh
+        imageHeightConstraint.isActive = true
+        notSupportedLabel.isHidden = true
+        avatarImageView.image = nil
+        authorLabel.text = nil
+        dateLabel.text = nil
+
         postLabel.text = post.text
         
         likesCount = post.likes?.count ?? 0
@@ -122,7 +139,7 @@ final class PostTableViewCell: UITableViewCell {
         if let id = post.sourceID{
             ownerId = String(id)
         }
-        if let id = post.ownerID {
+        if let id = post.fromID {
             ownerId = String(id)
         }
         if let id = post.postID {
@@ -147,31 +164,27 @@ final class PostTableViewCell: UITableViewCell {
         let id = Int(ownerId) ?? 0
         setNameAndAvatar(id: id)
         
-        guard let attachments = post.attachments else {
-            setupConstraints()
-            return
-        }
+        guard let attachments = post.attachments else {return}
         
         if attachments.count == 0 {
-            setupConstraints()
             return
         }
         
         for attachment in attachments{
             if attachment.type == "photo" {
                 guard let url = attachment.photo?.sizes.first?.url else {return}
-                
-                imageHeight = UIScreen.main.bounds.height / 3
+                imageHeightConstraint.constant = UIScreen.main.bounds.height / 3
+                imageHeightConstraint.isActive = true
                 postImageView.sd_setImage(with: URL(string: url))
                 postLabel.numberOfLines = 8
-                setupConstraints()
+
                 return
-            }else{
-                imageHeight = 40
-                notSupportedLabel.isHidden = false
-                setupConstraints()
             }
         }
+        
+        imageHeightConstraint.constant = 40
+        imageHeightConstraint.isActive = true
+            notSupportedLabel.isHidden = false
     }
     
     private func setNameAndAvatar(id: Int) {
@@ -269,16 +282,20 @@ final class PostTableViewCell: UITableViewCell {
             postLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             postLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -8),
             
+            postImageView.topAnchor.constraint(equalTo: postLabel.bottomAnchor, constant: 8),
             postImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             postImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            postImageView.heightAnchor.constraint(equalToConstant: imageHeight),
             postImageView.bottomAnchor.constraint(equalTo: likesButton.topAnchor, constant: -16),
             
             likesButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             likesButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            likesButton.heightAnchor.constraint(equalToConstant: 30),
+            likesButton.widthAnchor.constraint(equalToConstant: 80),
             
             commentsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             commentsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            commentsButton.heightAnchor.constraint(equalToConstant: 30),
+            commentsButton.widthAnchor.constraint(equalToConstant: 80),
 
             notSupportedLabel.centerXAnchor.constraint(equalTo: postImageView.centerXAnchor),
             notSupportedLabel.heightAnchor.constraint(equalToConstant: 24)

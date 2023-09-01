@@ -2,7 +2,7 @@
 import UIKit
 import SwiftyVK
 
-class CommentTableViewCell: UITableViewCell {
+final class CommentTableViewCell: UITableViewCell {
     
     private lazy var avatarImageView: UIImageView = {
         let image = UIImageView()
@@ -16,6 +16,7 @@ class CommentTableViewCell: UITableViewCell {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .Pallete.black
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -24,6 +25,7 @@ class CommentTableViewCell: UITableViewCell {
     private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .Pallete.black
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -32,6 +34,7 @@ class CommentTableViewCell: UITableViewCell {
     private lazy var commentLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .Pallete.black
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -40,6 +43,7 @@ class CommentTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        contentView.backgroundColor = .Pallete.white
         [nameLabel, dateLabel, commentLabel, avatarImageView].forEach({contentView.addSubview($0)})
         setupConstraints()
     }

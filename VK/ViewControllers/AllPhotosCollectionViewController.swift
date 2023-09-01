@@ -10,9 +10,10 @@ final class AllPhotosCollectionViewController: UICollectionViewController, UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView!.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
         title = "Фото"
+        view.backgroundColor = .Pallete.white
+        
+        collectionView!.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         getPhotos()
     }

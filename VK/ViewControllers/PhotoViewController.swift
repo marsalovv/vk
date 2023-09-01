@@ -18,6 +18,7 @@ final class PhotoViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.setTitle(~"close", for: .normal)
+        button.titleLabel?.textColor = .Pallete.black
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
@@ -34,6 +35,7 @@ final class PhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         imageView.addSubview(closeButton)
         view.addSubview(imageView)
