@@ -72,7 +72,8 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var likesButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.textColor = .Pallete.black
+        button.setTitleColor(.Pallete.black, for: .normal)
+        button.setTitleColor(.Pallete.black, for: .selected)
         button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.setImage(UIImage(systemName: "heart.fill"), for: .selected)
         button.addTarget(self, action: #selector(addOrRemoveLike), for: .touchUpInside)
@@ -83,7 +84,7 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var commentsButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.textColor = .Pallete.black
+        button.setTitleColor(.Pallete.black, for: .normal)
         button.isUserInteractionEnabled = false
         button.setImage(UIImage(systemName: "bubl.left"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
