@@ -15,8 +15,7 @@ final class ProfileTableViewController: UITableViewController {
         
         tableView.register(ProfileInfoTableViewCell.self, forCellReuseIdentifier: "profileInfo")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostTableViewCell")
-        
-        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 300
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(pushCPVC))
         navigationItem.rightBarButtonItem?.accessibilityLabel = ~"create post"
@@ -31,20 +30,21 @@ final class ProfileTableViewController: UITableViewController {
     }
     
     @objc private func pushCPVC() {
-        let cp = CreatingPostViewController()
-        cp.action = {
-            self.tableView.scrollToRow(at: IndexPath(item: 1, section: 0), at: .top, animated: true)
+        let cpvc = CreatingPostViewController()
+        cpvc.action = {
+            self.tableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
             self.getPosts()
         }
-        let cpvc = UINavigationController(rootViewController: cp)
         
-        present(cpvc, animated: true)
+        let createPostVC = UINavigationController(rootViewController: cpvc)
+        present(createPostVC, animated: true)
     }
     
     private func getProfile() {
         VK.API.Users.get([.fields : "photo_400_orig,status"])
             .onSuccess() {usersData in
                 guard let users = try? JSONDecoder().decode([ProfileModel].self, from: usersData) else {return}
+                
                 self.profile = users[0]
                 
                 DispatchQueue.main.async {
@@ -65,6 +65,9 @@ final class ProfileTableViewController: UITableViewController {
                 self.posts = newPosts.items
                 
                 DispatchQueue.main.async {
+                    self.posts = []
+                    self.tableView.reloadData()
+                    self.posts = newPosts.items
                     self.tableView.reloadData()
                 }
             }
@@ -74,8 +77,8 @@ final class ProfileTableViewController: UITableViewController {
             .send()
     }
     
-    private func deletePost(index: IndexPath) {
-        let index = index.row - 1
+    private func deletePost(indexPath: IndexPath) {
+        let index = indexPath.row - 1
         let ownerId = posts[index].ownerID ?? 0
         let postId = posts[index].id ?? 0
         VK.API.Wall.delete([.ownerId: String(ownerId), .postId: String(postId)])
@@ -84,7 +87,7 @@ final class ProfileTableViewController: UITableViewController {
                     let myIndexPath = IndexPath(row: index + 1, section: 0)
                     self.posts.remove(at: index)
                     self.tableView.deleteRows(at: [myIndexPath], with: .top)
-                    self.getPosts()
+                    self.tableView.reloadData()
                 }
             }
             .onError() {error in
@@ -107,10 +110,12 @@ final class ProfileTableViewController: UITableViewController {
                 cell.setupCell(profile: myProfile)
             }
             
+            cell.isUserInteractionEnabled = false
+            
             return cell
         }else{
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath) as! PostTableViewCell
-            //cell.postImageView.image = nil
+            cell.postImageView.image = nil
             cell.setupCell(post: posts[indexPath.row - 1])
             
             return cell
@@ -137,20 +142,13 @@ final class ProfileTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            deletePost(index: indexPath)
+            deletePost(indexPath: indexPath)
         }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return 300
-        }else{
-            return UITableView.automaticDimension
-        }
+        return UITableView.automaticDimension
     }
-    
-    
-    
     
 }
 

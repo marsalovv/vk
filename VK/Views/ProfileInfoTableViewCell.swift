@@ -54,15 +54,15 @@ final class ProfileInfoTableViewCell: UITableViewCell {
             avatarImageView.heightAnchor.constraint(equalToConstant: 150),
             avatarImageView.widthAnchor.constraint(equalToConstant: 150),
             
+            NameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 40),
             NameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            NameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 20),
+            NameLabel.heightAnchor.constraint(equalToConstant: 40),
             
+            statusLabel.topAnchor.constraint(equalTo: NameLabel.bottomAnchor, constant: 20),
             statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             statusLabel.heightAnchor.constraint(equalToConstant: 50),
-            
-//            contentView.heightAnchor.constraint(equalToConstant: 300)
         ])
     }
     

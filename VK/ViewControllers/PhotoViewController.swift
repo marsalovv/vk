@@ -3,7 +3,7 @@ import UIKit
 import SDWebImage
 import SwiftyVK
 
-class PhotoViewController: UIViewController {
+final class PhotoViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
@@ -42,7 +42,6 @@ class PhotoViewController: UIViewController {
     }
     
     @objc private func close() {
-        print("close")
         dismiss(animated: true)
     }
     
