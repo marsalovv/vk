@@ -31,7 +31,7 @@ final class CreatingPostViewController: UIViewController, UIImagePickerControlle
     private lazy var sendButton: UIButton = {
         let button = UIButton()
         button.setTitle(~"send post", for: .normal)
-        button.titleLabel?.textColor = .Pallete.black
+        button.setTitleColor(.Pallete.black, for: .normal)
         button.addTarget(self, action: #selector(sendPost), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         

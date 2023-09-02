@@ -23,7 +23,8 @@
 /*PostViewController*/
 "post" = "Post";
 "send" = "Send";
-
+"comment placeholder" = "Your comment";
+"editing text" = "Editing text";
 
 /*PostTableViewController*/
 "not supported" = "This data type is not yet supported";

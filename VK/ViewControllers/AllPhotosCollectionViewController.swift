@@ -19,7 +19,7 @@ final class AllPhotosCollectionViewController: UICollectionViewController, UICol
     }
     
     private func getPhotos() {
-        VK.API.Photos.getAll([.photoSizes: "1"])
+        VK.API.Photos.getAll([.photoSizes: "1", .count: "100"])
             .onSuccess() {photosData in
                 guard let allPhotosModel = try? JSONDecoder().decode(AllPhotosModel.self, from: photosData) else {return}
                 

@@ -44,6 +44,16 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
         return button
     }()
     
+    private lazy var placeholderLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .tertiaryLabel
+        label.text = ~"comment placeholder"
+        label.isAccessibilityElement = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     init(post: PostProtocol) {
         self.post = post
         super.init(nibName: nil, bundle: nil)
@@ -62,6 +72,10 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
         title = ~"post"
         view.backgroundColor = .Pallete.white
         
+        commentTextView.delegate = self
+        commentTextView.accessibilityLabel = placeholderLabel.text
+        commentTextView.accessibilityValue = ~"editing text"
+        commentTextView.addSubview(placeholderLabel)
         [tableView, commentTextView, sendButton].forEach({view.addSubview($0)})
         
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostTableViewCell")
@@ -166,10 +180,15 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
             sendButton.widthAnchor.constraint(equalToConstant: 50),
             sendButton.trailingAnchor.constraint(equalTo: safearie.trailingAnchor, constant: -4),
             sendButton.centerYAnchor.constraint(equalTo: commentTextView.centerYAnchor),
+            
+            placeholderLabel.leadingAnchor.constraint(equalTo: commentTextView.leadingAnchor, constant: 8),
+            placeholderLabel.centerYAnchor.constraint(equalTo: commentTextView.centerYAnchor),
+            placeholderLabel.heightAnchor.constraint(equalToConstant: 20),
         ])
     }
     
     // MARK: - Table view data source
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count + 1
     }
@@ -202,3 +221,21 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
 }
+
+
+extension PostViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = !commentTextView.text.isEmpty
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = !commentTextView.text.isEmpty
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        placeholderLabel.isHidden = true
+    }
+    
+    }
+
