@@ -80,9 +80,7 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
         
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostTableViewCell")
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: "comment")
-        tableView.estimatedRowHeight = 300
         
-        view.backgroundColor = .Pallete.white
         tabBarController?.tabBar.isHidden = true
         
         setupConstraints()
@@ -169,12 +167,12 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
             tableView.topAnchor.constraint(equalTo: safearie.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: safearie.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safearie.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: commentTextView.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: commentTextView.topAnchor, constant: -8),
             
             commentTextView.leadingAnchor.constraint(equalTo: safearie.leadingAnchor, constant: 8),
             commentTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -4),
             commentTextView.heightAnchor.constraint(equalToConstant: 50),
-            commentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+            commentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: 4),
             
             sendButton.heightAnchor.constraint(equalToConstant: 50),
             sendButton.widthAnchor.constraint(equalToConstant: 50),
