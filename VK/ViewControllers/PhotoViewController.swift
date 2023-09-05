@@ -8,6 +8,7 @@ final class PhotoViewController: UIViewController {
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true
+        image.contentMode = .scaleAspectFit
         image.isUserInteractionEnabled = true
         image .translatesAutoresizingMaskIntoConstraints = false
         
@@ -18,7 +19,7 @@ final class PhotoViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.setTitle(~"close", for: .normal)
-        button.titleLabel?.textColor = .Pallete.black
+        button.setTitleColor(.Pallete.black, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
@@ -36,7 +37,7 @@ final class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        view.backgroundColor = .black
         imageView.addSubview(closeButton)
         view.addSubview(imageView)
 

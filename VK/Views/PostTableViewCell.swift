@@ -279,7 +279,7 @@ final class PostTableViewCell: UITableViewCell {
             dateLabel.bottomAnchor.constraint(equalTo: authorView.bottomAnchor, constant: -8),
             
             postLabel.topAnchor.constraint(equalTo: authorView.bottomAnchor, constant: 12),
-            postLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            postLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 4),
             postLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             postLabel.bottomAnchor.constraint(equalTo: postImageView.topAnchor, constant: -8),
             
