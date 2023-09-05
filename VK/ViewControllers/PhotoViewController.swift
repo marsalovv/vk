@@ -19,7 +19,7 @@ final class PhotoViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(close), for: .touchUpInside)
         button.setTitle(~"close", for: .normal)
-        button.setTitleColor(.Pallete.black, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
 
         return button
