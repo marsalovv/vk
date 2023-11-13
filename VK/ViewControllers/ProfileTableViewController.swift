@@ -5,21 +5,34 @@ import SwiftyVK
 final class ProfileTableViewController: UITableViewController {
     
     private var posts: [PostModel] = []
+    private let userId: String
     private var profile: ProfileModel?
+    
+init(userId: String = "") {
+        self.userId = userId
+    super.init(style: .plain)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if userId.isEmpty {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: ~"logout", style: .plain, target: self, action: #selector(logout))
+        }
         view.backgroundColor = .Pallete.white
         title = ~"profile"
         
         tableView.register(ProfileInfoTableViewCell.self, forCellReuseIdentifier: "profileInfo")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostTableViewCell")
-        tableView.estimatedRowHeight = 300
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(pushCPVC))
         navigationItem.rightBarButtonItem?.accessibilityLabel = ~"create post"
         
+        //tabBarController?.tabBar.isHidden = false
         getProfile()
         getPosts()
     }
@@ -40,8 +53,39 @@ final class ProfileTableViewController: UITableViewController {
         present(createPostVC, animated: true)
     }
     
-    private func getProfile() {
-        VK.API.Users.get([.fields : "photo_400_orig,status"])
+    @objc private func logout() {
+        VK.sessions.default.logOut()
+        VK.release()
+
+        UserDefaults.standard.setValue(nil, forKey: "token")
+        
+        let loginVC = LoginViewController()
+        navigationController?.popViewController(animated: true)
+        navigationController?.viewControllers = [loginVC]
+    }
+    
+    private func getProfile(){
+        let id = Int(userId) ?? 0
+        if id < 0 {
+            VK.API.Groups.getById([.groupId : String(-id), .fields: "status,description"])
+                .onSuccess() {data in
+                    guard let groups = try? JSONDecoder().decode([GroupModel].self, from: data) else {return}
+                    
+                    let group = groups[0]
+                    
+                    let groupProfile = ProfileModel(id: group.id, firstName: group.name, lastName: "", isClosed: nil, status: group.status, isFriend: nil, photo50: nil, photo100: nil, photo200Orig: group.photo200, description: group.description)
+                    
+                    self.profile = groupProfile
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                }
+                .send()
+            return
+        }
+            
+
+        VK.API.Users.get([.fields: "photo_200_orig,status", .userId: userId])
             .onSuccess() {usersData in
                 guard let users = try? JSONDecoder().decode([ProfileModel].self, from: usersData) else {return}
                 
@@ -58,15 +102,13 @@ final class ProfileTableViewController: UITableViewController {
     }
     
     private func getPosts() {
-        VK.API.Wall.get([.filter : "post"])
+        VK.API.Wall.get([.filter : "post", .ownerId: userId])
             .onSuccess() {postsData in
-                guard let newPosts = try? JSONDecoder().decode(PostsModel.self, from: postsData) else {return}
+                guard let newPosts = try? JSONDecoder().decode(PostsModel.self, from: postsData) else {print("11111");return}
                 
                 self.posts = newPosts.items
                 
                 DispatchQueue.main.async {
-                    self.posts = []
-                    self.tableView.reloadData()
                     self.posts = newPosts.items
                     self.tableView.reloadData()
                 }
@@ -143,7 +185,20 @@ final class ProfileTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == .delete {
-            deletePost(indexPath: indexPath)
+            let alert = UIAlertController(
+                title: ~"delete post",
+                message: ~"Confirmation of post deletion",
+                preferredStyle: .actionSheet
+            )
+            
+            let deleteAaction = UIAlertAction(title: ~"yes", style: .destructive) {_ in
+                self.deletePost(indexPath: indexPath)
+            }
+            let cansellAction = UIAlertAction(title: ~"cancel", style: .cancel)
+            alert.addAction(deleteAaction)
+            alert.addAction(cansellAction)
+            
+            navigationController?.present(alert, animated: true)
         }
     }
     

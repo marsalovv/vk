@@ -3,15 +3,16 @@ import Foundation
 
 struct ProfileModel: Codable {
     let id: Int
-    let firstName: String
-    let lastName: String
+    var firstName: String
+    var lastName: String
     let isClosed: Bool?
-    let status: String?
+    var status: String?
     let isFriend: Int?
     let photo50: String?
     let photo100: String?
     let photo200Orig: String?
-    let photo400Orig: String?
+    var photo400Orig: String?
+    let description: String?
     
     
     enum CodingKeys: String, CodingKey {
@@ -25,6 +26,7 @@ struct ProfileModel: Codable {
         case photo100 = "photo_100"
         case photo200Orig = "photo_200_orig"
         case photo400Orig = "photo_400_orig"
+        case description
         
     }
 }

@@ -46,25 +46,27 @@ final class LoginViewController: UIViewController, SwiftyVKDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tabBarController?.tabBar.isHidden = true
         view.backgroundColor = color
         
         view.addSubview(image)
         image.addSubview(label)
         image.addSubview(loginButton)
         
+        
         setupConstraints()
     }
     
     @objc private func login() {
         VK.setUp(appId: appId, delegate: self)
-        
         VK.sessions.default.logIn(onSuccess: {response in
             UserDefaults.standard.setValue(response["access_token"], forKey: "token")
             UserDefaults.standard.setValue(response["user_id"], forKey: "userId")
             
             DispatchQueue.main.async {
-                let mtbc = MainTabBarController()
-                self.navigationController?.viewControllers = [mtbc]
+                let mtvc = MainTabBarController()
+                
+                self.navigationController?.viewControllers = [mtvc]
             }
         },
                                   onError: { error in
@@ -98,7 +100,7 @@ final class LoginViewController: UIViewController, SwiftyVKDelegate {
     //MARK: - SwiftyVKDelegate
     
     func vkNeedsScopes(for sessionId: String) -> Scopes {
-        let scopes: Scopes = [ .friends, .photos, .wall, .status, .audio, .offline, .groups]
+        let scopes: Scopes = [ .friends, .photos, .wall, .status, .audio, .groups]
         
         return scopes
     }
@@ -120,6 +122,7 @@ final class LoginViewController: UIViewController, SwiftyVKDelegate {
     func vkTokenRemoved(for sessionId: String) {
         // Called when user was logged out
         // Use this method to cancel all SwiftyVK requests and remove session data
+        VK.setUp(appId: appId, delegate: self)
     }
     
 }

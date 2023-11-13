@@ -74,7 +74,6 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
         
         commentTextView.delegate = self
         commentTextView.accessibilityLabel = placeholderLabel.text
-        commentTextView.accessibilityValue = ~"editing text"
         commentTextView.addSubview(placeholderLabel)
         [tableView, commentTextView, sendButton].forEach({view.addSubview($0)})
         
@@ -110,29 +109,27 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
         
         VK.API.Wall.createComment([.ownerId: ownerId, .postId: postId, .message: comment])
             .onSuccess() {_ in
-                self.getComments()
                 DispatchQueue.main.async {
+                    self.getComments()
                     self.commentTextView.text = nil
                 }
             }
             .onError() {error in
-                print("123123", error.localizedDescription)
-                print(self.ownerId, self.postId)
+                print(error.localizedDescription)
             }
             .send()
     }
     
     private func getComments(commentId: String = "") {
         VK.API.Wall.getComments([.ownerId: ownerId, .postId: postId, .count: "100", .commentId: commentId])
-            .onSuccess() { [self]commentsData in
+            .onSuccess() { commentsData in
                 guard var newComments = try? JSONDecoder().decode(CommentsModel.self, from: commentsData) else {return}
-                
-                if commentId.isEmpty != true {
+                if commentId.isEmpty == false {
                     for index in 0..<newComments.items.count {
                         newComments.items[index].isReply = true
                     }
-                    let indexThread = comments.firstIndex(where: {String($0.id) == commentId})! + 1
-                    comments.insert(contentsOf: newComments.items, at: indexThread)
+                    let indexThread = self.comments.firstIndex(where: {String($0.id) == commentId})! + 1
+                    self.comments.insert(contentsOf: newComments.items, at: indexThread)
                 }
                 
                 for index in 0..<newComments.items.count {
@@ -172,7 +169,7 @@ final class PostViewController: UIViewController, UITableViewDelegate, UITableVi
             commentTextView.leadingAnchor.constraint(equalTo: safearie.leadingAnchor, constant: 8),
             commentTextView.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -4),
             commentTextView.heightAnchor.constraint(equalToConstant: 50),
-            commentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: 4),
+            commentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -4),
             
             sendButton.heightAnchor.constraint(equalToConstant: 50),
             sendButton.widthAnchor.constraint(equalToConstant: 50),
@@ -235,5 +232,5 @@ extension PostViewController: UITextViewDelegate {
         placeholderLabel.isHidden = true
     }
     
-    }
+}
 

@@ -4,12 +4,13 @@ import SwiftyVK
 
 final class MainTabBarController: UITabBarController {
     
+    private let appId = "51674921"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         let swiftyVKDelegate = LoginViewController()
-        VK.setUp(appId: "51674921", delegate: swiftyVKDelegate)
+        VK.setUp(appId: appId, delegate: swiftyVKDelegate)
         
  let feedTVC = UINavigationController(rootViewController: FeedTableViewController())
         feedTVC.tabBarItem = UITabBarItem(title: ~"feedTableViewController", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
@@ -23,6 +24,5 @@ final class MainTabBarController: UITabBarController {
         
         viewControllers = [ feedTVC, allPhotoCVC, profileTVC]
     }
-    
     
 }

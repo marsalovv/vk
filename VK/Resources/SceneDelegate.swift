@@ -11,12 +11,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: scene)
         
-        if UserDefaults.standard.string(forKey: "token") == nil {
+        if UserDefaults.standard.string(forKey: "token") == nil{
             let loginVC = UINavigationController(rootViewController: LoginViewController())
             window?.rootViewController = loginVC
         }else{
-            let mtbc =  UINavigationController(rootViewController: MainTabBarController())
-            window?.rootViewController = mtbc
+            let mtvc =  UINavigationController(rootViewController: MainTabBarController())
+            window?.rootViewController = mtvc
         }
         
         window?.makeKeyAndVisible()

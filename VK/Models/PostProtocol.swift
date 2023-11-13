@@ -6,6 +6,7 @@ protocol PostProtocol {
     var text: String? {get}
     var likes: Like? {get}
     var comments: CountComments? {get}
+    var views: viewsModel? {get}
     var attachments: [Attachment]? {get}
     var id: Int? {get}
     var ownerID: Int? {get}

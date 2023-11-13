@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		6917D2DB2A4DA2370020819E /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6917D2DA2A4DA2370020819E /* GroupModel.swift */; };
+		69266FF12AA78DBA000102E4 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69266FF02AA78DBA000102E4 /* UILabel+.swift */; };
 		697DAB0F2A97C08600215E13 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB0E2A97C08600215E13 /* ProfileTableViewController.swift */; };
 		697DAB112A98CFDF00215E13 /* AllPhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB102A98CFDF00215E13 /* AllPhotoModel.swift */; };
 		697DAB132A98ECDD00215E13 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB122A98ECDD00215E13 /* PhotoViewController.swift */; };
 		697DAB152A99F6B500215E13 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB142A99F6B500215E13 /* CommentTableViewCell.swift */; };
 		697DAB172A9A2B6F00215E13 /* CustomDateFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB162A9A2B6F00215E13 /* CustomDateFormater.swift */; };
 		697DAB192A9B8A9F00215E13 /* PostProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB182A9B8A9F00215E13 /* PostProtocol.swift */; };
-		697DAB1B2A9B8D7300215E13 /* testModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697DAB1A2A9B8D7300215E13 /* testModel.swift */; };
+		698D3BEE2AB8BCE900BD9DCF /* ViewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698D3BED2AB8BCE900BD9DCF /* ViewsModel.swift */; };
 		699696ED2A2DEFB7001742A2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 699696EF2A2DEFB7001742A2 /* Localizable.strings */; };
 		699696F32A2F62E2001742A2 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699696F22A2F62E2001742A2 /* UIColor+.swift */; };
 		699BD17C2A37552A00AC2374 /* NewsFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699BD17B2A37552A00AC2374 /* NewsFeedModel.swift */; };
@@ -46,13 +47,15 @@
 /* Begin PBXFileReference section */
 		48BDABDD1FC8A464821E84AF /* Pods_VK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6917D2DA2A4DA2370020819E /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
+		69266FF02AA78DBA000102E4 /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		697DAB0E2A97C08600215E13 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
 		697DAB102A98CFDF00215E13 /* AllPhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPhotoModel.swift; sourceTree = "<group>"; };
 		697DAB122A98ECDD00215E13 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		697DAB142A99F6B500215E13 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		697DAB162A9A2B6F00215E13 /* CustomDateFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDateFormater.swift; sourceTree = "<group>"; };
 		697DAB182A9B8A9F00215E13 /* PostProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostProtocol.swift; sourceTree = "<group>"; };
-		697DAB1A2A9B8D7300215E13 /* testModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testModel.swift; sourceTree = "<group>"; };
+		6988219E2AD0458B00D8CD12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		698D3BED2AB8BCE900BD9DCF /* ViewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsModel.swift; sourceTree = "<group>"; };
 		699696EA2A2DEDC7001742A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		699696EE2A2DEFB7001742A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		699696F02A2DEFE6001742A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -79,7 +82,6 @@
 		69EC25A02A010EDF0084E73B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		69EC25A72A010EE20084E73B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		69EC25AA2A010EE20084E73B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		69EC25AC2A010EE20084E73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		69EC25B92A0519090084E73B /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		69F0B5582A1E536A00613FEA /* CreatingPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingPostViewController.swift; sourceTree = "<group>"; };
 		860E259E1337079E387F7658 /* Pods-VK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VK.release.xcconfig"; path = "Target Support Files/Pods-VK/Pods-VK.release.xcconfig"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				699696F22A2F62E2001742A2 /* UIColor+.swift */,
+				69266FF02AA78DBA000102E4 /* UILabel+.swift */,
 			);
 			path = Extention;
 			sourceTree = "<group>";
@@ -128,7 +131,6 @@
 			children = (
 				699BD17B2A37552A00AC2374 /* NewsFeedModel.swift */,
 				699BD1852A38667B00AC2374 /* NewsModel.swift */,
-				697DAB1A2A9B8D7300215E13 /* testModel.swift */,
 				697DAB182A9B8A9F00215E13 /* PostProtocol.swift */,
 				6917D2DA2A4DA2370020819E /* GroupModel.swift */,
 				69ADA2402A3C5DEE00A2560E /* PhotoModel.swift */,
@@ -139,6 +141,7 @@
 				69E45DE52A926F1700C2D75D /* CommentModel.swift */,
 				69E45DE92A93B01C00C2D75D /* UploadURLPhotoModel.swift */,
 				69E45DEB2A93D56100C2D75D /* mediaid.swift */,
+				698D3BED2AB8BCE900BD9DCF /* ViewsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -202,7 +205,7 @@
 				69EC25A02A010EDF0084E73B /* SceneDelegate.swift */,
 				69EC25A72A010EE20084E73B /* Assets.xcassets */,
 				69EC25A92A010EE20084E73B /* LaunchScreen.storyboard */,
-				69EC25AC2A010EE20084E73B /* Info.plist */,
+				6988219E2AD0458B00D8CD12 /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				69B337752A14FFCA009CC065 /* PostTableViewCell.swift in Sources */,
 				69ADA2412A3C5DEE00A2560E /* PhotoModel.swift in Sources */,
 				69E45DDD2A869DAC00C2D75D /* PostViewController.swift in Sources */,
+				69266FF12AA78DBA000102E4 /* UILabel+.swift in Sources */,
 				699696F32A2F62E2001742A2 /* UIColor+.swift in Sources */,
 				69A253062A3C9226001005A4 /* ProfileModel.swift in Sources */,
 				69E45DE62A926F1800C2D75D /* CommentModel.swift in Sources */,
@@ -368,10 +372,10 @@
 				6917D2DB2A4DA2370020819E /* GroupModel.swift in Sources */,
 				697DAB152A99F6B500215E13 /* CommentTableViewCell.swift in Sources */,
 				697DAB172A9A2B6F00215E13 /* CustomDateFormater.swift in Sources */,
+				698D3BEE2AB8BCE900BD9DCF /* ViewsModel.swift in Sources */,
 				69E45DDB2A86776100C2D75D /* PostModel.swift in Sources */,
 				69E45DE82A9382ED00C2D75D /* AllPhotosCollectionViewController.swift in Sources */,
 				69EC25A12A010EDF0084E73B /* SceneDelegate.swift in Sources */,
-				697DAB1B2A9B8D7300215E13 /* testModel.swift in Sources */,
 				69EC25BA2A0519090084E73B /* FeedTableViewController.swift in Sources */,
 				697DAB132A98ECDD00215E13 /* PhotoViewController.swift in Sources */,
 				69E45DD72A863B2C00C2D75D /* ProfileInfoTableViewCell.swift in Sources */,
@@ -532,7 +536,7 @@
 				INFOPLIST_FILE = VK/Resources/info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Доступ необходим, чтобы вы могли публиковать фотографии.";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -543,7 +547,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marsalovv.VK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marsalovv.vkn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -564,7 +568,7 @@
 				INFOPLIST_FILE = VK/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VK;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Доступ необходим, чтобы вы могли публиковать фотографии.";
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -575,7 +579,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.marsalovv.VK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marsalovv.vkn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

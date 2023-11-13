@@ -13,6 +13,7 @@
 
 /*ProfileTableViewController*/
 "profile" = "Profile";
+"logout" = "Logout";
 
 /*PhotoCollectionViewController*/
 "photo" = "Photos";
@@ -25,6 +26,8 @@
 "send" = "Send";
 "comment placeholder" = "Your comment";
 "editing text" = "Editing text";
+"Confirmation of post deletion" = "This action is irreversible!";
+"delete post" = "Are you sure you want to delete the post?";
 
 /*PostTableViewController*/
 "not supported" = "This data type is not yet supported";

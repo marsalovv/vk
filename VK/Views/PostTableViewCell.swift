@@ -14,6 +14,8 @@ final class PostTableViewCell: UITableViewCell {
     
     private lazy var authorView: UIView = {
         let view = UIView()
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(pushProfile))
+        view.addGestureRecognizer(recognizer)
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -103,14 +105,22 @@ final class PostTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var viewsLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = .Pallete.white
         [authorLabel, avatarImageView, dateLabel].forEach({authorView.addSubview($0)})
         postImageView.addSubview(notSupportedLabel)
-        [authorView,postImageView, postLabel, likesButton, commentsButton].forEach {contentView.addSubview($0)}
-        self.accessibilityElements = [authorLabel, postLabel, notSupportedLabel, postImageView,likesButton, commentsButton]
+        [authorView,postImageView, postLabel, likesButton, viewsLabel, commentsButton].forEach {contentView.addSubview($0)}
+        self.accessibilityElements = [authorLabel, postLabel, notSupportedLabel, postImageView,likesButton, viewsLabel, commentsButton]
         setupConstraints()
         self.imageHeightConstraint = postImageView.heightAnchor.constraint(equalToConstant: 0)
         imageHeightConstraint.priority = .defaultLow
@@ -129,13 +139,21 @@ final class PostTableViewCell: UITableViewCell {
         avatarImageView.image = nil
         authorLabel.text = nil
         dateLabel.text = nil
-
+        viewsLabel.text = nil
+        postImageView.image = nil
+        imageHeightConstraint.constant = 0
+        imageHeightConstraint.isActive = true
+        self.accessibilityElements = [authorLabel, postLabel, likesButton, viewsLabel, commentsButton]
+        
         postLabel.text = post.text
         
         likesCount = post.likes?.count ?? 0
         likesButton.setTitle("\(likesCount)", for: .normal)
         isUserLike = post.likes?.userLikes == 1 ? true : false
         likesButton.isSelected = isUserLike
+        
+        let viewsCount = post.views?.count ?? 0
+        viewsLabel.text = String(viewsCount)
         
         if let id = post.sourceID{
             ownerId = String(id)
@@ -177,20 +195,25 @@ final class PostTableViewCell: UITableViewCell {
                 imageHeightConstraint.constant = UIScreen.main.bounds.height / 3
                 imageHeightConstraint.isActive = true
                 postImageView.sd_setImage(with: URL(string: url))
+                self.accessibilityElements?.insert(postImageView, at: 3)
+                
+                let datePhoto = attachment.photo?.date ?? 0
+                let photoDateFormater = CustomDateFormatter(dt: datePhoto)
+                postImageView.accessibilityLabel = photoDateFormater.getDateAndTime()
                 postLabel.numberOfLines = 8
-
                 return
             }
         }
         
         imageHeightConstraint.constant = 40
         imageHeightConstraint.isActive = true
-            notSupportedLabel.isHidden = false
+        notSupportedLabel.isHidden = false
+        self.accessibilityElements?.insert(notSupportedLabel, at: 2)
     }
     
     private func setNameAndAvatar(id: Int) {
         if id < 0 {
-            VK.API.Groups.getById([.groupId : String(-id)])
+            VK.API.Groups.getById([.groupId : String(-id), .fields: "description,status"])
                 .onSuccess() {data in
                     guard let groups = try? JSONDecoder().decode([GroupModel].self, from: data) else {return}
                     
@@ -259,6 +282,11 @@ final class PostTableViewCell: UITableViewCell {
         }
     }
     
+    @objc private func pushProfile() {
+        let profile = ProfileTableViewController(userId: ownerId)
+        (superview?.next as? UIViewController)?.navigationController?.pushViewController(profile, animated: true)
+    }
+    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             authorView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -293,11 +321,16 @@ final class PostTableViewCell: UITableViewCell {
             likesButton.heightAnchor.constraint(equalToConstant: 30),
             likesButton.widthAnchor.constraint(equalToConstant: 80),
             
+            viewsLabel.leadingAnchor.constraint(equalTo: likesButton.trailingAnchor),
+            viewsLabel.trailingAnchor.constraint(equalTo: commentsButton.leadingAnchor),
+            viewsLabel.centerYAnchor.constraint(equalTo: likesButton.centerYAnchor),
+            viewsLabel.heightAnchor.constraint(equalToConstant: 30),
+            
             commentsButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             commentsButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
             commentsButton.heightAnchor.constraint(equalToConstant: 30),
             commentsButton.widthAnchor.constraint(equalToConstant: 80),
-
+            
             notSupportedLabel.centerXAnchor.constraint(equalTo: postImageView.centerXAnchor),
             notSupportedLabel.heightAnchor.constraint(equalToConstant: 24)
         ])

@@ -4,6 +4,18 @@ import SDWebImage
 
 final class ProfileInfoTableViewCell: UITableViewCell {
     
+    private lazy var avatarImageView: UIImageView = {
+        let image = UIImageView()
+        image.layer.cornerRadius = 75
+        image.layer.borderWidth = 2
+        image.layer.borderColor = UIColor.lightGray.cgColor
+        image.clipsToBounds = true
+        image.isAccessibilityElement = true
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
     private lazy var NameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .Pallete.black
@@ -24,33 +36,36 @@ final class ProfileInfoTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var avatarImageView: UIImageView = {
-        let image = UIImageView()
-        image.layer.cornerRadius = 75
-        image.layer.borderWidth = 2
-        image.layer.borderColor = UIColor.lightGray.cgColor
-        image.clipsToBounds = true
-        image.isAccessibilityElement = true
-        image.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
         
-        return image
+        return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = .Pallete.white
-        [avatarImageView, NameLabel, statusLabel].forEach() {contentView.addSubview($0)}
+        [avatarImageView, NameLabel, statusLabel, descriptionLabel].forEach() {contentView.addSubview($0)}
         setupConstraints()
-        self.accessibilityElements = [avatarImageView, NameLabel, statusLabel]
+        self.accessibilityElements = [avatarImageView, NameLabel, statusLabel, descriptionLabel]
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setupCell(profile: ProfileModel) {
+        NameLabel.text = "\(profile.firstName) \(profile.lastName)"
+        statusLabel.text = profile.status
+        descriptionLabel.text = profile.description
+        avatarImageView.sd_setImage(with: URL(string: profile.photo200Orig!))
+    }
+    
     private func setupConstraints () {
-        
         NSLayoutConstraint.activate([
             avatarImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
@@ -64,16 +79,13 @@ final class ProfileInfoTableViewCell: UITableViewCell {
             statusLabel.topAnchor.constraint(equalTo: NameLabel.bottomAnchor, constant: 20),
             statusLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            statusLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            statusLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -8),
             statusLabel.heightAnchor.constraint(equalToConstant: 50),
+            
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
         ])
-    }
-    
-    func setupCell(profile: ProfileModel) {
-        NameLabel.text = "\(profile.firstName) \(profile.lastName)"
-        statusLabel.text = profile.status
-        avatarImageView.sd_setImage(with: URL(string: profile.photo400Orig!))
-        
     }
     
 }

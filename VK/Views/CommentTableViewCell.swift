@@ -53,7 +53,6 @@ final class CommentTableViewCell: UITableViewCell {
     }
     
     func setupCell(ownerId: Int, date: Int, comment: String, isReply: Bool) {
-        setNameAndAvatar(id: ownerId)
         
         if isReply {
             commentLabel.text = formatedReply(comment: comment)
@@ -63,9 +62,16 @@ final class CommentTableViewCell: UITableViewCell {
         
         let dateFormater = CustomDateFormatter(dt: date)
         dateLabel.text = dateFormater.getDateAndTime()
+        
+        setNameAndAvatar(id: ownerId)
     }
     
     private func setNameAndAvatar(id: Int) {
+        if id == 0 {
+            commentLabel.text = ~"comment deleted"
+            return
+        }
+        
         if id < 0 {
             VK.API.Groups.getById([.groupId : String(-id)])
                 .onSuccess() {data in
@@ -106,6 +112,7 @@ final class CommentTableViewCell: UITableViewCell {
     
     private func formatedReply(comment: String) -> String {
         let array = comment.components(separatedBy: "]")
+            
         if array.count == 1 {
             return array[0]
         }

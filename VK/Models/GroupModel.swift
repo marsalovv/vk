@@ -7,6 +7,7 @@ struct GroupModel: Codable {
     let photo50: String
     let photo200: String
     let description: String?
+    let status: String?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -14,5 +15,6 @@ struct GroupModel: Codable {
         case photo50 = "photo_50"
         case photo200 = "photo_200"
         case description
+        case status
     }
 }

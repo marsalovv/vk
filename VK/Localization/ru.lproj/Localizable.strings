@@ -1,3 +1,6 @@
+"cancel" = "Отмена";
+"yes" = "Да";
+
 /* CreatingPostViewController*/
 "create post" = "Создание записи";
 "add image" = "Выбрать изображение";
@@ -12,6 +15,7 @@
 
 /*ProfileTableViewController*/
 "profile" = "Профиль";
+"logout" = "Выйти";
 
 /*allPhotoCollectionViewController*/
 "photo" = "Фотографии";
@@ -24,6 +28,9 @@
 "send" = "Отправить";
 "comment placeholder" = "Ваш комментарий";
 "editing text" = "Введите текст";
+"Confirmation of post deletion" = "Это действие необратимо!";
+"delete post" = "Вы действительно хотите удалить запись?";
+
 
 /*PostTableViewCell*/
 "not supported" = "Данный тип пока не поддерживается...";

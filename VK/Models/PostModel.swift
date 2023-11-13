@@ -9,6 +9,7 @@ struct PostModel: Codable, PostProtocol {
     let text: String?
     let likes: Like?
     let comments: CountComments?
+    let views: viewsModel?
     let attachments: [Attachment]?
     
     enum CodingKeys: String, CodingKey {
@@ -19,6 +20,7 @@ struct PostModel: Codable, PostProtocol {
         case text
         case likes
         case comments
+        case views
         case attachments
     }
 }

@@ -17,7 +17,7 @@ class FeedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         view.backgroundColor = .Pallete.white
         title = ~"feedTableViewController"
         
@@ -48,7 +48,8 @@ class FeedTableViewController: UITableViewController {
         loadIndicatorView.startAnimating()
         VK.API.NewsFeed.get([.filters : "post", .startFrom : nextFrom, .count : "25"])
             .onSuccess() {newsFeedData in
-                guard let newsFeed = try? JSONDecoder().decode(NewsFeedModel.self, from: newsFeedData) else {return}
+                guard let newsFeed = try? JSONDecoder().decode(NewsFeedModel.self, from: newsFeedData) else {print("uuuuuuuuuuu")
+                    return}
                 self.posts += newsFeed.items
                 self.nextFrom = newsFeed.nextFrom
                 

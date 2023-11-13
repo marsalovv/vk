@@ -1,6 +1,5 @@
 
 
-
 struct NewsModel: Codable, PostProtocol {
     var id: Int?
     var ownerID: Int?
@@ -11,6 +10,7 @@ struct NewsModel: Codable, PostProtocol {
     let text: String?
     let likes: Like?
     let comments: CountComments?
+    let views: viewsModel?
     let attachments: [Attachment]?
     
     enum CodingKeys: String, CodingKey {
@@ -20,6 +20,7 @@ struct NewsModel: Codable, PostProtocol {
         case text
         case likes
         case comments
+        case views
         case  attachments
     }
 }
